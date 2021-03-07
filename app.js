@@ -1,12 +1,14 @@
 const express = require("express");
+var cors = require('cors')
 var sqlite3 = require('sqlite3').verbose();
 const app = express();
+app.use(cors())
 const morgan = require("morgan");
 const helmet = require("helmet");
 const compression = require("compression");
 
 var db = new sqlite3.Database('database.db');
-db.run('CREATE TABLE IF NOT EXISTS data(id INT UNIQUE,item TEXT,name TEXT,description TEXT,link1 TEXT,link2 TEXT,link3 TEXT,link4 TEXT,link5 TEXT,link6 TEXT,link7 TEXT,price INT, booked BOOL)');
+db.run('CREATE TABLE IF NOT EXISTS data(id INT UNIQUE,item TEXT,name TEXT,description TEXT,link1 TEXT,link2 TEXT,link3 TEXT,link4 TEXT,link5 TEXT,link6 TEXT,link7 TEXT,link8 TEXT,price INT, booked BOOL)');
 
 app.use(express.json());
 app.use(helmet());
@@ -39,9 +41,9 @@ app.get("/:id", (req, res) => {
 });
 
 app.post("/add", (req, res) => {
-const {id,item,name,description,link1,link2,link3,link4,link5,link6,link7,price,booked} = req.body
+const {id,item,name,description,link1,link2,link3,link4,link5,link6,link7,link8,price,booked} = req.body
     db.serialize(()=>{
-      db.run('INSERT INTO data(id,item,name,description,link1,link2,link3,link4,link5,link6,link7,price,booked) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)', [id,item,name,description,link1,link2,link3,link4,link5,link6,link7,price,false], function(err,data) {
+      db.run('INSERT INTO data(id,item,name,description,link1,link2,link3,link4,link5,link6,link7,link8,price,booked) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', [id,item,name,description,link1,link2,link3,link4,link5,link6,link7,link8,price,false], function(err,data) {
         if (err) {
           res.status(400).json({error:"Cannot save the item to database"})
         }
@@ -70,4 +72,5 @@ app.delete('/:id', function(req,res){
 app.listen(process.env.PORT || 8008, () => {
 	console.log("server running");
 });
+
 
