@@ -8,7 +8,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 
 var db = new sqlite3.Database('database.db');
-db.run('CREATE TABLE IF NOT EXISTS data(id INT UNIQUE,item TEXT,name TEXT,description TEXT,link1 TEXT,link2 TEXT,link3 TEXT,link4 TEXT,link5 TEXT,link6 TEXT,link7 TEXT,link8 TEXT,price INT, booked BOOL)');
+db.run('CREATE TABLE IF NOT EXISTS data(id INT UNIQUE,item TEXT,name TEXT, by TEXT, description TEXT,link1 TEXT,link2 TEXT,link3 TEXT,link4 TEXT,link5 TEXT,link6 TEXT,link7 TEXT,link8 TEXT,price INT, booked BOOL)');
 
 app.use(express.json());
 app.use(helmet());
