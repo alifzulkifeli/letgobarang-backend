@@ -68,6 +68,20 @@ app.delete('/:id', function(req,res){
 });
 
 
+app.get('/update/:id', function(req,res){
+  db.serialize(()=>{
+    db.run('UPDATE data SET booked = 1 WHERE id = ?', [req.params.id], function(err){
+      if(err){
+        res.send("Error encountered while updating");
+        return console.error(err.message);
+      }
+      res.send("Entry updated successfully");
+      console.log("Entry updated successfully");
+    });
+  });
+});
+
+
 
 app.listen(process.env.PORT || 8008, () => {
 	console.log("server running");
