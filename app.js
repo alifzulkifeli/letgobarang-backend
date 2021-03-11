@@ -68,9 +68,9 @@ app.delete('/:id', function(req,res){
 });
 
 
-app.get('/update/:id', function(req,res){
+app.get('/update/:id/:name', function(req,res){
   db.serialize(()=>{
-    db.run('UPDATE data SET booked = 1 WHERE id = ?', [req.params.id], function(err){
+    db.run('UPDATE data SET booked = 1, by = ?  WHERE id = ?', [req.params.id, req.params.name], function(err){
       if(err){
         res.send("Error encountered while updating");
         return console.error(err.message);
