@@ -17,7 +17,7 @@ app.use(morgan("tiny"));
 
 app.get("/", (req, res) => {
   db.serialize(()=>{
-    db.all('SELECT id,item,link1,price,booked from data', function(err,row){     
+    db.all('SELECT id,item,link1,price,booked from data order by case when booked then 0 else 1 end', function(err,row){     
       if(err){
         res.send("Error encountered while displaying");
         return console.error(err.message);
@@ -70,7 +70,7 @@ app.delete('/:id', function(req,res){
 
 app.get('/update/:id/:name', function(req,res){
   db.serialize(()=>{
-    db.run('UPDATE data SET booked = 1, by = ?  WHERE id = ?', [req.params.id, req.params.name], function(err){
+    db.run('UPDATE data SET booked = 1, by = ?  WHERE id = ?', [ req.params.name, req.params.id], function(err){
       if(err){
         res.send("Error encountered while updating");
         return console.error(err.message);
